@@ -116,3 +116,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Added a `useEffect` in `src/components/AddExpenseForm.jsx` that watches the `members` prop and appends any newly added member IDs to `splitWith`, also recalculating `percents` via `evenPercents` to include them.
 
 ---
+
+## Bug 12
+
+**How to reproduce:** In any expense row, type an invalid value into the inline amount input (e.g. `-50`, `0`, or `abc`) and click outside the input (blur). The actual expense amount remains unchanged, but the input field continues to display the invalid text.
+
+**What is wrong:** In `src/components/ExpenseList.jsx`, the `onBlur` handler only calls `onSaveAmount` when the input is valid. If the value is invalid, nothing happens — but `draft` state is never reverted to `String(expense.amount)`, so the invalid text stays visible in the input.
+
+**What I changed:** Added an `else` branch to the `onBlur` handler in `ExpenseRow` in `src/components/ExpenseList.jsx` that calls `setDraft(String(expense.amount))` to revert the input to the actual amount when the entered value is invalid.
+
+---
