@@ -58,6 +58,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 6
 
+**How to reproduce:** Click the "Delete" button on the first item in the list ("Board game"). Instead of "Board game" being deleted, "Groceries" is removed from the list, while "Board game" remains. Similarly, editing the amount of any sorted or filtered expense modifies a different expense.
+
+**What is wrong:** `ExpenseList.jsx` passed the visual array index of the filtered and sorted list to `onDeleteAt(index)` and `onUpdateAt(index, patch)`. The reducer in `src/state/store.js` spliced/mutated `state.expenses` by that raw index, mutating whatever item happened to be at that position in the underlying array rather than the intended expense.
+
+**What I changed:** Updated `src/components/ExpenseList.jsx`, `src/App.jsx`, and `src/state/store.js` to identify and mutate expenses by their unique `id` rather than array index (`filter(e => e.id !== action.id)` for delete, and `map(e => e.id === action.id ? ... : e)` for update). Also updated list item keys to use `expense.id` for stable rendering.
+
+---
+
+## Bug 7
+
 **How to reproduce:**
 
 **What is wrong:**
