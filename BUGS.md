@@ -126,3 +126,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Added an `else` branch to the `onBlur` handler in `ExpenseRow` in `src/components/ExpenseList.jsx` that calls `setDraft(String(expense.amount))` to revert the input to the actual amount when the entered value is invalid.
 
 ---
+
+## Bug 13
+
+**How to reproduce:** In the "Add expense" form, select "Custom %" split. Enter `-50` for one member and `150` for another. The percentages sum to 100, so the form validates and saves the expense — creating a negative share for one member.
+
+**What is wrong:** `percentsSumTo100` in `src/lib/money.js` only checks that the percentages sum to 100 but does not verify that each individual percentage is non-negative. This allows nonsensical negative shares that break the settlement logic.
+
+**What I changed:** Added `if (!values.every((v) => v >= 0)) return false;` to `percentsSumTo100` in `src/lib/money.js`, rejecting any split where a percentage is negative.
+
+---
