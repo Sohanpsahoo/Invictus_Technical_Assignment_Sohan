@@ -4,6 +4,7 @@ import { totalSpent } from "../lib/balances.js";
 
 export default function SummaryCards({ members, expenses, onAddMember }) {
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   const perPerson = useMemo(() => {
     return members.map((m) => {
@@ -52,6 +53,14 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
           e.preventDefault();
           const trimmed = name.trim();
           if (!trimmed) return;
+          const duplicate = members.some(
+            (m) => m.name.toLowerCase() === trimmed.toLowerCase()
+          );
+          if (duplicate) {
+            setError(`"${trimmed}" is already a member.`);
+            return;
+          }
+          setError("");
           onAddMember(trimmed);
           setName("");
         }}
@@ -70,6 +79,7 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
             Add
           </button>
         </div>
+        {error && <p className="error">{error}</p>}
       </form>
     </section>
   );

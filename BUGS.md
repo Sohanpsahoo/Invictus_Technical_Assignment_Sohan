@@ -146,3 +146,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Appended a random alphanumeric suffix (`Math.random().toString(36).slice(2, 7)`) to the timestamp in `nextExpenseId()` in `src/state/store.js`, ensuring each ID is unique even under rapid creation.
 
 ---
+
+## Bug 15
+
+**How to reproduce:** In the Summary panel, type "Aisha Khan" (an existing member) into the "Add member" input and click "Add". A second "Aisha Khan" is added to the group, creating duplicate entries in Balances, Settle Up, and the Paid-by filter — making it impossible to tell them apart.
+
+**What is wrong:** The "Add member" form in `src/components/SummaryCards.jsx` has no duplicate name validation. Any name is accepted, including names that already exist in the group.
+
+**What I changed:** Added a case-insensitive duplicate name check in the form's `onSubmit` handler in `src/components/SummaryCards.jsx`. If the entered name matches an existing member, the form displays an error message (`"<name>" is already a member.`) and prevents the addition.
+
+---
