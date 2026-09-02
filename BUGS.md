@@ -84,4 +84,15 @@ Keep this file in the repo and **commit it** with your fixes.
 
 **What I changed:** Added `members` to the `useMemo` dependency array (`[members, expenses]`) in `src/components/SummaryCards.jsx`. Updated `loadState` in `src/state/store.js` to hydrate state loaded from `localStorage`, and updated `formatDate` in `src/lib/format.js` to ensure consistent date formatting.
 
+
+---
+
+## Bug 9
+
+**How to reproduce:** View the app in a timezone west of UTC (e.g. America/New_York UTC-5). An expense recorded for "2026-03-12" displays as "11 Mar 2026" instead of "12 Mar 2026".
+
+**What is wrong:** Date strings like `"2026-03-12"` from `seed.json` or `<input type="date">` are parsed as UTC midnight (`2026-03-12T00:00:00Z`). When `formatDate` in `src/lib/format.js` calls `.toLocaleDateString()` without specifying a timezone, the browser converts UTC midnight to local time, shifting the date back by one day in western timezones.
+
+**What I changed:** Added `timeZone: "UTC"` to the `toLocaleDateString` options in `formatDate` in `src/lib/format.js`, ensuring dates render consistently regardless of the user's local timezone.
+
 ---
