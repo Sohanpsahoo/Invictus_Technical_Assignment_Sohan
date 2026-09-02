@@ -106,3 +106,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Added `setDescription("")` and `setAmount("")` after the `onAdd(...)` call in `submit()` in `src/components/AddExpenseForm.jsx`, so the form resets after a successful submission.
 
 ---
+
+## Bug 11
+
+**How to reproduce:** In the Summary panel, add a new member (e.g. "Elena"). Then look at the "Add expense" form — all 4 original members are selected in the "Split between" chips, but Elena's chip is unselected. If you switch to "Custom %", Elena does not appear in the percentage inputs either.
+
+**What is wrong:** In `src/components/AddExpenseForm.jsx`, `splitWith` and `percents` are initialized with `useState(members.map(...))` only on component mount. When new members are appended to the `members` prop, the `splitWith` state is never updated, leaving newly added members excluded from bill splits by default.
+
+**What I changed:** Added a `useEffect` in `src/components/AddExpenseForm.jsx` that watches the `members` prop and appends any newly added member IDs to `splitWith`, also recalculating `percents` via `evenPercents` to include them.
+
+---
