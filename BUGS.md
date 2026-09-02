@@ -28,11 +28,11 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 3
 
-**How to reproduce:** Look at the expense "Uber to airport" ($60 paid by Diya, split between Aisha and Ben). Diya was not part of the split. However, Diya's balance is penalized by deducting $30 ($60 / 2) from her balance. If you sum all members' balances, the total is -$30.00 instead of cancelling out to $0.00.
+**How to reproduce:** : If we look at the expense "Uber to airport" ($60 paid by Diya, split between Aisha and Ben). Diya was not part of the split. However, Diya's balance is penalized by deducting $30 ($60 / 2) from her balance. If you sum all members' balances, the total is -$30.00 instead of cancelling out to $0.00.
 
-**What is wrong:** In `src/lib/balances.js`, if the payer was not included in `shares`, the code erroneously subtracted `amount / splitWith.length` from the payer's balance. A payer who is not on the split should receive their full payment back without any deductions.
+**What is wrong:** : In `src/lib/balances.js`, if the payer was not included in `shares`, the code subtracted `amount / splitWith.length` from the payer's balance. A payer who is not on the split should receive their full payment back without any deductions.
 
-**What I changed:** Removed the erroneous penalty deduction block (`if (!(exp.paidBy in shares)...)`) from `computeBalances` in `src/lib/balances.js` so that payers not included in the split are credited for the full payment amount.
+**What I changed:** : I have removed the erroneous penalty deduction block (`if (!(exp.paidBy in shares)...)`) from `computeBalances` in `src/lib/balances.js` so that payers not included in the split are credited for the full payment amount.
 
 ---
 
