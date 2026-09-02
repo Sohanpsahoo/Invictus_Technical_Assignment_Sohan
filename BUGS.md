@@ -136,3 +136,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Added `if (!values.every((v) => v >= 0)) return false;` to `percentsSumTo100` in `src/lib/money.js`, rejecting any split where a percentage is negative.
 
 ---
+
+## Bug 14
+
+**How to reproduce:** Rapidly click "Save expense" twice in the same millisecond (or programmatically call `nextExpenseId()` twice in quick succession). Both expenses receive the same ID (e.g. `e-1741234567890`), causing React key collisions and deleting or editing the wrong expense.
+
+**What is wrong:** `nextExpenseId()` in `src/state/store.js` generates IDs using only `Date.now()`, which returns the same value when called multiple times within the same millisecond.
+
+**What I changed:** Appended a random alphanumeric suffix (`Math.random().toString(36).slice(2, 7)`) to the timestamp in `nextExpenseId()` in `src/state/store.js`, ensuring each ID is unique even under rapid creation.
+
+---

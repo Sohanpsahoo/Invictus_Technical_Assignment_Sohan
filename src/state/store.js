@@ -30,7 +30,7 @@ export function persistState(state) {
 }
 
 export function nextExpenseId() {
-  return `e-${Date.now()}`;
+  return `e-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 export function nextMemberId(members) {
