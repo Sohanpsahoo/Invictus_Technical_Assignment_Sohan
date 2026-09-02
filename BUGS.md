@@ -96,3 +96,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Added `timeZone: "UTC"` to the `toLocaleDateString` options in `formatDate` in `src/lib/format.js`, ensuring dates render consistently regardless of the user's local timezone.
 
 ---
+
+## Bug 10
+
+**How to reproduce:** Enter a description (e.g. "Beach snacks") and an amount ($25), then click "Save expense". The expense is added to the list, but the description and amount fields still contain "Beach snacks" and "25". Clicking "Save expense" again creates an accidental duplicate.
+
+**What is wrong:** In `src/components/AddExpenseForm.jsx`, the `submit()` function calls `onAdd(...)` but never clears the `description` or `amount` state afterwards, leaving stale values in the form.
+
+**What I changed:** Added `setDescription("")` and `setAmount("")` after the `onAdd(...)` call in `submit()` in `src/components/AddExpenseForm.jsx`, so the form resets after a successful submission.
+
+---
