@@ -68,6 +68,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 7
 
+**How to reproduce:** Add an expense of $100 split equally among 3 people. Each share is calculated as $33.33, totaling $99.99 ($0.01 lost). Additionally, entering valid custom percentages (e.g., 33.33%, 33.33%, 33.34%) fails form validation due to floating point precision issues (`sum === 100.00000000000001`).
+
+**What is wrong:** `splitEqual` and `splitByPercent` in `src/lib/money.js` simply rounded individual shares with `.toFixed(2)` without distributing remainder cents, causing the total shares to not equal the expense amount. Furthermore, `percentsSumTo100` used strict float equality (`=== 100`), causing false validation errors.
+
+**What I changed:** Updated `splitEqual` and `splitByPercent` in `src/lib/money.js` to compute total cents and allocate remainder cents across shares so the sum of individual shares always matches the bill amount exactly. Updated `percentsSumTo100` to allow floating-point tolerance (`Math.abs(sum - 100) < 0.01`).
+
+---
+
+## Bug 8
+
 **How to reproduce:**
 
 **What is wrong:**
