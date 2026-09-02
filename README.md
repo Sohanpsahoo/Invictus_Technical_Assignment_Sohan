@@ -1,3 +1,5 @@
+DEPLOYED LINK : https://invictustechnicalassignmentsohan.vercel.app/
+
 # FairShare
 
 FairShare helps a group of friends share costs on a trip.
