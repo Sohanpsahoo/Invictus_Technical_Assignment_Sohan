@@ -38,11 +38,11 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 4
 
-**How to reproduce:** In a scenario where a debtor's owed amount matches a creditor's owed amount exactly, the Settle Up panel fails to display a suggested transfer between them, leaving their debts and credits unresolved.
+**How to reproduce:** : In a scenario where a debtor's owed amount matches a creditor's owed amount exactly, the Settle Up panel fails to display a suggested transfer between them, leaving their debts and credits unresolved.
 
-**What is wrong:** In `src/lib/settle.js`, the `else` branch of the settlement matching loop (which executes when `d.amount === c.amount`) only advanced the loop indices `i` and `j` without pushing the settlement transfer to the `transfers` array.
+**What is wrong:** :  In `src/lib/settle.js`, the `else` branch of the settlement matching loop (which executes when `d.amount === c.amount`) only advanced the loop indices `i` and `j` without pushing the settlement transfer to the `transfers` array.
 
-**What I changed:** Refactored the settlement algorithm in `src/lib/settle.js` to compute `const payment = Math.min(d.amount, c.amount)`, correctly creating and pushing the transfer for all cases (including exact matching amounts) and decrementing remaining balances.
+**What I changed:** : I have refactored the settlement algorithm in `src/lib/settle.js` to compute `const payment = Math.min(d.amount, c.amount)`, correctly creating and pushing the transfer for all cases (including exact matching amounts) and decrementing remaining balances.
 
 ---
 
