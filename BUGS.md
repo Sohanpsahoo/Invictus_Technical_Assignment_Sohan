@@ -78,10 +78,10 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 8
 
-**How to reproduce:**
+**How to reproduce:** In the Summary panel on the right, use the "Add member" form to add a new person (e.g., "Elena"). The member count increases, but the "Paid so far" list below does not show the newly added member ("Elena $0.00") until an expense is added or modified.
 
-**What is wrong:**
+**What is wrong:** In `src/components/SummaryCards.jsx`, the `useMemo` calculating `perPerson` only listed `[expenses]` in its dependency array and omitted `members`. Adding a new member did not trigger re-evaluation of the member paid totals. Additionally, `loadState` in `src/state/store.js` did not rehydrate date strings from `localStorage` into `Date` objects, and `formatDate` in `src/lib/format.js` did not format raw date strings consistently.
 
-**What I changed:**
+**What I changed:** Added `members` to the `useMemo` dependency array (`[members, expenses]`) in `src/components/SummaryCards.jsx`. Updated `loadState` in `src/state/store.js` to hydrate state loaded from `localStorage`, and updated `formatDate` in `src/lib/format.js` to ensure consistent date formatting.
 
 ---
