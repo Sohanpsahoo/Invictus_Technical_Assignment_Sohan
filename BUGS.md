@@ -18,6 +18,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 2
 
+**How to reproduce:** Look at the "Balances" panel on the right. Aisha Khan has paid more than her share, but the panel displays "Aisha Khan owes $38.67". Meanwhile, Carlos Mendes has paid less than his share, but the panel displays "Carlos Mendes is owed $17.34".
+
+**What is wrong:** The logic in `src/components/BalancesPanel.jsx` inverted the display conditions: members with positive net balances (who paid more than they spent) were shown as "owes", while members with negative net balances (who spent more than they paid) were shown as "is owed".
+
+**What I changed:** In `src/components/BalancesPanel.jsx`, updated the condition so that positive balances (`bal > 0.005`) render `is owed ${formatMoney(bal)}` with CSS class `"owed"`, and negative balances (`bal < -0.005`) render `owes ${formatMoney(-bal)}` with CSS class `"owe"`.
+
+---
+
+## Bug 3
+
 **How to reproduce:**
 
 **What is wrong:**
